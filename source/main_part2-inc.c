@@ -13,31 +13,59 @@
 #include "simAVRHeader.h"
 #endif
 
-enum Lock_States {Lock_Start, Lock_Locked, Lock_UnLockedX, Lock_UnlockedY} Lock_State;
+enum Count_States {Count_Start, Count_Init, Count_Increment, Count_Decrement, Count_Reset}  Count_State;
+
+//unsigned char count =0x00;
+
+unsigned char tmpA = 0x00;
 
 
+void Count_Toggle(){
 
+	tmpA = PINA & 0x03;
 
-void Lock_Toggle(){
+	switch(Count_State){
 
-        unsigned char X = PINA & 0x01;
-	unsigned char Y = PINA & 0x02;
-	unsigned char out = PINA & 0x04;
-	unsigned char in = PINA & 0x08;
+		case Count_Start:
 
-	switch(Lock_State){
-
-		case Lock_Start:
-			Lock_State = Lock_Locked;
+			PORTC = 7;
+			Count_State = Count_Init;
 			break;
 
-		case Lock_Locked:
+		case Count_Init:
 
-			if(in){
-				Lock_State = Lock_Locked;
+			if(tmpA == 0x01){
+				Count_State = Count_Increment;
+				if(PORTC<9){
+					PORTC++;
+				}
+				else if(PORTC ==9){
+					PORTC = 9;
+				}
+				else{
+					PORTC = 0;
+				}
 			}
+			else if(tmpA == 0x02){
+				Count_State = Count_Decrement;
+
+				if(PORTC >0){
+					PORTC--;
+				}
+
+				else{
+					PORTC = 0;
+				}
+
+			}
+
+			else if(tmpA == 0x03){
+				Count_State = Count_Reset;
+				PORTC = 0;
+			}
+
 			else{
-				if()
+				Count_State = Count_Init;
 			}
 
 			break;
@@ -46,8 +74,13 @@ void Lock_Toggle(){
 			if(tmpA == 0x01){
 				Count_State = Count_Increment;
 			}
+			else if(tmpA ==0x03){
+				Count_State =Count_Reset;
+				PORTC = 0;
+			}	
 			else {
 				Count_State = Count_Init;
+				
 			}
 
 			break;
@@ -57,8 +90,13 @@ void Lock_Toggle(){
 			if(tmpA == 0x02){
 				Count_State = Count_Decrement;
 			}
+			else if(tmpA ==0x03){
+				Count_State =Count_Reset;
+				PORTC=0;
+			}
 			else{
 				Count_State = Count_Init;
+				
 			}
 			break;
 

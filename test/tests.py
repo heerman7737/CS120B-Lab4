@@ -14,17 +14,56 @@
 # An example set of tests is shown below. It is important to note that these tests are not "unit tests" in 
 # that they are not ran in isolation but in the order shown and the state of the device is not reset or 
 # altered in between executions (unless preconditions are used).
-tests = [ {'description': 'This test will run first.',
-    'steps': [ {'inputs': [('PINA',<val>)], 'iterations': 1 } ],
-    'expected': [('PORT',<val>)],
+tests = [ {'description': 'A = 0x00 => C = 7',
+    'steps': [ {'inputs': [('PINA',0x00)], 'iterations': 3 } ],
+    'expected': [('PORT',7)],
     },
-    {'description': 'This test will run second.',
-    'steps': [ {'inputs': [('PIN', <val>)],'iterations': 1}, # Set PIN to val then run one iteration
-        {'inputs': [('PIN',<val>)], 'time': 300 }, # Set PIN to val then run 300 ms
-        {'inputs': [('PIN',<val>)], 'iterations': 1, 'expected': [('PORT',<val>)]}, 
-        {'inputs': [('PIN',<val>)], 'time': 600}, ],
-    'expected': [('PORT',<val>)],
+     {'description': 'A = 0x01 => C = 8',
+    'steps': [ {'inputs': [('PINA',0x01)], 'iterations': 3 } ],
+    'expected': [('PORT',8)],
     },
+    {'description': 'A = 0x01 => C = 8',
+    'steps': [ {'inputs': [('PINA',0x01)], 'iterations': 3 } ],
+    'expected': [('PORT',8)],
+    },
+    {'description': 'A = 0x00 => C = 8',
+    'steps': [ {'inputs': [('PINA',0x00)], 'iterations': 3 } ],
+    'expected': [('PORT',8)],
+    },
+    
+    {'description': 'A = 0x02 => C = 7',
+    'steps': [ {'inputs': [('PINA',0x02)], 'iterations': 3 } ],
+    'expected': [('PORT',7)],
+    },
+    {'description': 'A = 0x01 => C = 9',
+    'steps': [ {'inputs': [('PINA',0x01)], 'iterations': 3 } ],
+    'expected': [('PORT',8)],
+    },
+
+#    {'description': 'A = 0x02 => C = 0',
+#    'steps': [ {'inputs': [('PINA',0x00)], 'iterations': 3 } ],
+#    'expected': [('PORT',7)],
+#    },
+#    {'description': 'A = 0x00 => C = 7',
+#    'steps': [ {'inputs': [('PINA',0x00)], 'iterations': 3 } ],
+#    'expected': [('PORT',7)],
+#    },
+#    {'description': 'A = 0x00 => C = 7',
+#    'steps': [ {'inputs': [('PINA',0x00)], 'iterations': 3 } ],
+#    'expected': [('PORT',7)],
+#    },
+#    {'description': 'A = 0x00 => C = 7',
+#    'steps': [ {'inputs': [('PINA',0x00)], 'iterations': 3 } ],
+#    'expected': [('PORT',7)],
+#    },
+#    {'description': 'A = 0x00 => C = 7',
+#    'steps': [ {'inputs': [('PINA',0x00)], 'iterations': 3 } ],
+#    'expected': [('PORT',7)],
+#    },
+
+
+
+
     ]
 
 # Optionally you can add a set of "watch" variables these need to be global or static and may need
